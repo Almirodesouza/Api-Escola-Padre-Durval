@@ -1,8 +1,10 @@
 import { Sequelize } from 'sequelize';
-import User from '../app/models/user.js';
 import databaseConfig from '../config/database.cjs';
 
-const models = [User];
+import User from '../app/models/user.js';
+import Turmas from '../app/models/Turmas.js';
+
+const models = [User, Turmas];
 
 class Database {
   constructor() {
