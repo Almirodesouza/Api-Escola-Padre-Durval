@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import Turmas from '../models/Turmas.js';
 
 class TurmasController {
   async store(request, response) {
@@ -6,7 +7,7 @@ class TurmasController {
       name: Yup.string().required(),
       homeroom_teacher: Yup.string().required(),
       shift: Yup.string()
-        .oneOf(['Matutino', 'Vespertino', 'Noturno'])
+        .oneOf(['matutino', 'vespertino', 'noturno'])
         .required(),
       school_year: Yup.number().required(),
       max_students: Yup.number().optional(),
@@ -18,7 +19,23 @@ class TurmasController {
       return response.status(400).json({ error: err.errors });
     }
 
-    return response.status(200).json({ ok: 'Turma criada com sucesso!' });
+    const { name, homeroom_teacher, shift, school_year, max_students } = request.body;
+
+    const newTurma = await Turmas.create({
+      name,
+      homeroom_teacher,
+      shift,
+      school_year,
+      max_students,
+    })
+
+    return response.status(200).json(newTurma);
+  }
+
+  async index(_request, response) {
+    const turmas = await Turmas.findAll();
+
+    return response.status(200).json(turmas);
   }
 }
 

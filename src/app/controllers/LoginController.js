@@ -2,6 +2,9 @@ import * as Yup from 'yup';
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth.js';
+
 class LoginController {
   async store(request, response) {
     const schema = Yup.object({
@@ -36,11 +39,16 @@ class LoginController {
       emailOrPasswordIncorrect();
     }
 
+    const token = jwt.sign({id: userExists.id}, authConfig.secret, {
+      expiresIn: authConfig.expiresIn
+    })
+
     return response.status(200).json({
       message: `Login realizado com sucesso!`,
       id: userExists.id,
       name: userExists.name,
       email: userExists.email,
+      token,
     });
   }
 }
