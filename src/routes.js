@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UserController from './app/controllers/Usercontroller.js';
-import LoginController from './app/controllers/loginController.js';
+import LoginController from './app/controllers/LoginController.js';
 import TurmasController from './app/controllers/TurmasController.js';
 import authMiddleware from './middlewares/auth.js';
 
